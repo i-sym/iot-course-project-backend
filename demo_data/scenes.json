@@ -1,0 +1,34 @@
+{
+    "scenes":[
+        {
+            "id": "scene1",
+            "name": "Scene 1",
+            "trigger": {
+                "type": "time",
+                "time": "17:00:00"
+            },
+            "actions":[
+                {
+                    "type":"relay",
+                    "id": "ESP30",
+                    "state": "off"
+                }
+            ]
+        },
+        {
+            "id": "scene2",
+            "name": "Scene 2",
+            "trigger": {
+                "type": "time",
+                "time": "10:00:00"
+            },
+            "actions":[
+                {
+                    "type":"relay",
+                    "id": "ESP30",
+                    "state": "on"
+                }
+            ]
+        }
+    ]
+}

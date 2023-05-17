@@ -1,0 +1,62 @@
+app.get('/api/data/:id', (req, res) => {
+    const id = req.params.id;
+    console.log(`Received request for data with id ${id}`);
+    fs.readFile('Power.txt', (err, data) => {
+        if(err){
+            res.status(500).send(err);
+            return;
+        }
+        const lines = data.toString().split('\n');
+        const measurements = lines.map(line => parseFloat(line));
+        console.log(`Found ${measurements.length} measurements`);
+        // Group measuermenets by 10 and add timestamp
+        // Start from 00:00 today. Measurements are 1 minute apart
+        const now = new Date();
+        const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+
+        // Divide measurements into groups of 30 minutes and calculate average in each group
+        const measurementsGrouped = [];
+        for(let i = 0; i < measurements.length; i += 30){
+            const group = measurements.slice(i, i + 30);
+            const average = group.reduce((a, b) => a + b, 0) / group.length;
+            measurementsGrouped.push(average);
+        }
+
+        const measurementsWithTimestamp = measurementsGrouped.map((measurement, index) => {
+            const timestamp = new Date(start.getTime() + index * 30 * 60 * 1000);
+            return {
+                timestamp,
+                measurement: measurement || 0
+            };
+        });
+        
+        res.json(measurementsWithTimestamp);
+
+    });
+
+});
+
+app.get('/api/devices', async (req, res) => {
+    console.log('Received request for devices');
+    try {
+
+        const devices = await DataController.getDevices();
+        res.json(devices);
+    }
+    catch(err){
+        res.status(500).send(`Internal server error: ${err}`);
+    }
+});
+
+app.get('/api/scenes', async (req, res) => {
+    console.log('Received request for scenes');
+    try {
+
+        const scenes = await DataController.getScenes();
+        res.json(scenes);
+    }
+    catch(err){
+        res.status(500).send(`Internal server error: ${err}`);
+    }
+});
+

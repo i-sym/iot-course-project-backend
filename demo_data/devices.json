@@ -1,0 +1,39 @@
+{
+    "devices":[
+        {
+            "name":"3D printer",
+            "id":"ESP30",
+            "online":true,
+            "types":[
+                {
+                    "type":"relay",
+                    "function":"actuator",
+                    "taskTopic":"ESP30/UntitledTeam/RelayTopic",
+                    "lastState":"off"
+                },
+                {
+                    "type":"power-meter",
+                    "function":"sensor",
+                    "dataTopic":"ESP30/UntitledTeam/CurrentValue",
+                    "lastValue":"500"
+                }
+            ]
+        },
+        {
+            "name":"Room",
+            "id":"ESP29",
+            "online":false,
+            "types":[
+                {
+                    "type":"activity-meter",
+                    "function":"sensor",
+                    "dataTopic":"ESP29/UntitledTeam/ActivityValue",
+                    "lastValue":"3"
+
+                }
+            ]
+        }
+
+
+    ]
+}
